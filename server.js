@@ -3,9 +3,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-const usersRoute = require("./users/users-route.js");
-const registerRoute = require("./auth/register-route.js");
-const loginRoute = require("./auth/login-route.js");
+const usersRoute = require("./users/users-route");
+const registerRoute = require("./auth/register-route");
+const loginRoute = require("./auth/login-route");
 
 const server = express();
 

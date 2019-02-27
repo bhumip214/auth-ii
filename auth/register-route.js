@@ -8,7 +8,7 @@ router.use(express.json());
 //Create user and Hash the password
 router.post("/", async (req, res) => {
   try {
-    if (req.body.username && req.body.password) {
+    if (req.body.username && req.body.password && req.body.department) {
       const hash = await bcrypt.hashSync(req.body.password, 14);
       req.body.password = hash;
 
