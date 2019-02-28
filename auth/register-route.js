@@ -20,7 +20,8 @@ router.post("/", async (req, res) => {
       res.status(201).json(user);
     } else {
       res.status(400).json({
-        errorMessage: "Please provide username and password to register."
+        errorMessage:
+          "Please provide username, password, and department to register."
       });
     }
   } catch (error) {
