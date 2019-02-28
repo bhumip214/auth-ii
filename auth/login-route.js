@@ -13,7 +13,7 @@ function generateToken(user) {
   const payload = {
     subject: user.id, // sub in payload is what the token is about
     username: user.username,
-    roles: ["Student"]
+    departments: user.department
     // ...otherData
   };
 
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
           message: `Welcome ${user.username}!, have a token...`,
           token,
           secret,
-          roles: token.roles
+          departments: token.departments
         });
       } else {
         res.status(401).json({ message: "You shall not pass!" });

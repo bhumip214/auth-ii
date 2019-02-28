@@ -26,9 +26,12 @@ function restricted(req, res, next) {
   }
 }
 
-function checkRole(role) {
+function checkDepartment(department) {
   return function(req, res, next) {
-    if (req.decodedJwt.roles && req.decodedJwt.roles.includes(role)) {
+    if (
+      req.decodedJwt.departments &&
+      req.decodedJwt.departments.includes(department)
+    ) {
       next();
     } else {
       res.status(403).json({ you: "you have no power here!" });
@@ -37,7 +40,7 @@ function checkRole(role) {
 }
 
 //Get users only if the user is logged in
-router.get("/", restricted, checkRole("Student"), async (req, res) => {
+router.get("/", restricted, checkDepartment("Sales"), async (req, res) => {
   try {
     const users = await db("users");
     res.status(200).json(users);
