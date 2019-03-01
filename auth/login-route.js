@@ -2,27 +2,9 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/dbConfig");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const tokenService = require("../auth/token-service.js");
 
 router.use(express.json());
-
-const secret =
-  process.env.JWT_SECRET || "add a third table for many to many relationships";
-
-function generateToken(user) {
-  const payload = {
-    subject: user.id, // sub in payload is what the token is about
-    username: user.username,
-    departments: user.department
-    // ...otherData
-  };
-
-  const options = {
-    expiresIn: "1d"
-  };
-
-  return jwt.sign(payload, secret, options);
-}
 
 //Create login
 router.post("/", async (req, res) => {
@@ -33,12 +15,11 @@ router.post("/", async (req, res) => {
         .where({ username })
         .first();
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = generateToken(user); // new
+        const token = tokenService.generateToken(user); // new
 
         res.status(200).json({
           message: `Welcome ${user.username}!, have a token...`,
           token,
-          secret,
           departments: token.departments
         });
       } else {

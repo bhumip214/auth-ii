@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-// import  List  from "@material-ui/core/List";
 import requiresAuth from "../auth/requiresAuth";
 import styled from "styled-components";
 
