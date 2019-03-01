@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/dbConfig");
 const bcrypt = require("bcryptjs");
+const tokenService = require("../auth/token-service.js");
 
 router.use(express.json());
 
@@ -17,7 +18,8 @@ router.post("/", async (req, res) => {
         .where({ id })
         .first();
 
-      res.status(201).json(user);
+      const token = tokenService.generateToken(user);
+      res.status(201).json({ user, token });
     } else {
       res.status(400).json({
         errorMessage:

@@ -2,14 +2,16 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/dbConfig");
 const restricted = require("../auth/restricted-middleware.js");
-const checkDepartment = require("../auth/check-department-middleware.js");
 
 router.use(express.json());
 
 //Get users only if the user is logged in
-router.get("/", restricted, checkDepartment("Sales"), async (req, res) => {
+router.get("/", restricted, async (req, res) => {
   try {
-    const users = await db("users");
+    const users = await db("users").where(
+      "department",
+      req.decodedJwt.departments
+    );
     res.status(200).json(users);
   } catch (error) {
     res.status(401).json({

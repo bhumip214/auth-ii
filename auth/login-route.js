@@ -7,7 +7,9 @@ const tokenService = require("../auth/token-service.js");
 router.use(express.json());
 
 //Create login
-router.post("/", async (req, res) => {
+router.post("/", login);
+
+async function login(req, res) {
   try {
     const { username, password } = await req.body;
     if (username && password) {
@@ -18,7 +20,7 @@ router.post("/", async (req, res) => {
         const token = tokenService.generateToken(user); // new
 
         res.status(200).json({
-          message: `Welcome ${user.username}!, have a token...`,
+          message: `Welcome ${user.username}!`,
           token,
           departments: token.departments
         });
@@ -36,6 +38,5 @@ router.post("/", async (req, res) => {
       message: "There was an error while logging in."
     });
   }
-});
-
+}
 module.exports = router;
